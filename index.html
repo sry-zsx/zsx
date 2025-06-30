@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>部门总结预览系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, #1a3a6c, #2c5aa0);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .search-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px 14px 50px;
+            border: 2px solid #e1e8ed;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #2c5aa0;
+            box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.2);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8fa4;
+            font-size: 1.2rem;
+        }
+        
+        .stats {
+            background: #f0f7ff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            color: #2c5aa0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .dept-container {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .dept-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            transition: transform 0.3s ease;
+        }
+        
+        .dept-section:hover {
+            transform: translateY(-5px);
+        }
+        
+        .section-title {
+            font-size: 1.6rem;
+            color: #2c5aa0;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eef2f7;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title i {
+            background: #e6f0ff;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        
+        .dept-list {
+            list-style: none;
+        }
+        
+        .dept-item {
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            background: #f9fbfd;
+            border-left: 4px solid #2c5aa0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dept-item:hover {
+            background: #e6f0ff;
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .dept-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #1a3a6c;
+        }
+        
+        .dept-preview {
+            color: #5d7eb5;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .dept-preview i {
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 25px;
+            color: #6c7a89;
+            font-size: 0.95rem;
+            border-top: 1px solid #e1e8ed;
+        }
+        
+        @media (max-width: 768px) {
+            .dept-container {
+                flex-direction: column;
+            }
+            
+            .search-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+            }
+        }
+        
+        .highlight {
+            background-color: #fff9c4;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>部门工作总结预览系统</h1>
+            <p class="subtitle">点击部门名称即可在线预览该部门的年度工作总结PDF文件。所有文件均存储在系统目录中，支持快速搜索和访问。</p>
+        </header>
+        
+        <div class="search-section">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="输入部门名称搜索...">
+            </div>
+            <div class="stats">
+                <i class="fas fa-folder-open"></i>
+                <span>当前收录部门：<span id="deptCount">17</span>个</span>
+            </div>
+        </div>
+        
+        <div class="dept-container">
+            <div class="dept-section">
+                <h2 class="section-title"><i class="fas fa-building"></i>总会部门</h2>
+                <ul class="dept-list" id="mainDepartments">
+                    <!-- 总会部门列表 -->
+                </ul>
+            </div>
+            
+            <div class="dept-section">
+                <h2 class="section-title"><i class="fas fa-sitemap"></i>分会及专业委员会</h2>
+                <ul class="dept-list" id="branchDepartments">
+                    <!-- 分会及专业委员会列表 -->
+                </ul>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 部门工作总结预览系统 | 最后更新: 2023年10月15日</p>
+            <p>所有总结文件存储在 D:\总结 目录中 | 技术支持: 信息中心</p>
+        </footer>
+    </div>
+
+    <script>
+        // 部门数据
+        const departments = {
+            main: [
+                {name: "会员与分支机构工作部", file: "会员与分支机构工作部总结.pdf"},
+                {name: "科技与信息工作部", file: "科技与信息工作部总结.pdf"},
+                {name: "标准与质量工作部", file: "标准与质量工作部总结.pdf"},
+                {name: "国际合作与展览工作部", file: "国际合作与展览工作部总结.pdf"},
+                {name: "行政与党群工作部", file: "行政与党群工作部总结.pdf"},
+                {name: "财务与资产工作部", file: "财务与资产工作部总结.pdf"}
+            ],
+            branch: [
+                {name: "钻井装备与工具分会", file: "钻井装备与工具分会总结.pdf"},
+                {name: "采油来气装备与工具分会", file: "采油来气装备与工具分会总结.pdf"},
+                {name: "非常规油气工程装备分会", file: "非常规油气工程装备分会总结.pdf"},
+                {name: "海洋油气工程装备分会", file: "海洋油气工程装备分会总结.pdf"},
+                {name: "石油化工设备分会", file: "石油化工设备分会总结.pdf"},
+                {name: "加能设备分会", file: "加能设备分会总结.pdf"},
+                {name: "膨胀节与管件分会", file: "膨胀节与管件分会总结.pdf"},
+                {name: "测井设备与工具分会", file: "测井设备与工具分会总结.pdf"},
+                {name: "炼油与化工设备管理专业委员会", file: "炼油与化工设备管理专业委员会总结.pdf"},
+                {name: "石油石化装备材料专业委员会", file: "石油石化装备材料专业委员会总结.pdf"},
+                {name: "检验检测与认证认可专业委员会", file: "检验检测与认证认可专业委员会总结.pdf"}
+            ]
+        };
+        
+        // 初始化部门列表
+        function initDepartments() {
+            const mainList = document.getElementById('mainDepartments');
+            const branchList = document.getElementById('branchDepartments');
+            
+            // 渲染总会部门
+            departments.main.forEach(dept => {
+                const li = document.createElement('li');
+                li.className = 'dept-item';
+                li.innerHTML = `
+                    <div class="dept-name">${dept.name}</div>
+                    <div class="dept-preview"><i class="far fa-file-pdf"></i> 预览</div>
+                `;
+                li.addEventListener('click', () => {
+                    openPdf(dept.file);
+                });
+                mainList.appendChild(li);
+            });
+            
+            // 渲染分会及专业委员会
+            departments.branch.forEach(dept => {
+                const li = document.createElement('li');
+                li.className = 'dept-item';
+                li.innerHTML = `
+                    <div class="dept-name">${dept.name}</div>
+                    <div class="dept-preview"><i class="far fa-file-pdf"></i> 预览</div>
+                `;
+                li.addEventListener('click', () => {
+                    openPdf(dept.file);
+                });
+                branchList.appendChild(li);
+            });
+            
+            // 设置部门总数
+            document.getElementById('deptCount').textContent = 
+                departments.main.length + departments.branch.length;
+        }
+        
+        // 打开PDF文件
+        function openPdf(filename) {
+            // 在实际应用中，这里应该是服务器上的PDF文件路径
+            // 例如: const pdfPath = `https://example.com/summaries/${encodeURIComponent(filename)}`;
+            
+            // 由于文件在本地，这里使用模拟行为
+            alert(`即将打开文件: ${filename}\n\n在实际部署中，此操作将在新标签页中打开PDF文件。\n文件路径: D:\\总结\\${filename}`);
+            
+            // 实际部署时应使用以下代码:
+            // window.open(pdfPath, '_blank');
+        }
+        
+        // 搜索功能
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const allDeptItems = document.querySelectorAll('.dept-item');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                allDeptItems.forEach(item => {
+                    const deptName = item.querySelector('.dept-name').textContent.toLowerCase();
+                    const deptText = item.querySelector('.dept-name');
+                    
+                    if (searchTerm === '') {
+                        item.style.display = 'flex';
+                        deptText.innerHTML = deptText.textContent;
+                        return;
+                    }
+                    
+                    if (deptName.includes(searchTerm)) {
+                        item.style.display = 'flex';
+                        
+                        // 高亮匹配文本
+                        const regex = new RegExp(`(${searchTerm})`, 'gi');
+                        const highlighted = deptText.textContent.replace(regex, '<span class="highlight">$1</span>');
+                        deptText.innerHTML = highlighted;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', () => {
+            initDepartments();
+            setupSearch();
+        });
+    </script>
+</body>
+</html>
