@@ -262,25 +262,25 @@
         // 部门数据
         const departments = {
             main: [
-                {name: "会员与分支机构工作部", file: "会员与分支机构工作部总结.pdf"},
-                {name: "科技与信息工作部", file: "科技与信息工作部总结.pdf"},
-                {name: "标准与质量工作部", file: "标准与质量工作部总结.pdf"},
-                {name: "国际合作与展览工作部", file: "国际合作与展览工作部总结.pdf"},
-                {name: "行政与党群工作部", file: "行政与党群工作部总结.pdf"},
-                {name: "财务与资产工作部", file: "财务与资产工作部总结.pdf"}
+                {name: "会员与分支机构工作部", file: "会员与分支机构工作部.pdf"},
+                {name: "科技与信息工作部", file: "科技与信息工作部.pdf"},
+                {name: "标准与质量工作部", file: "标准与质量工作部.pdf"},
+                {name: "国际合作与展览工作部", file: "国际合作与展览工作部.pdf"},
+                {name: "行政与党群工作部", file: "行政与党群工作部.pdf"},
+                {name: "财务与资产工作部", file: "财务与资产工作部.pdf"}
             ],
             branch: [
-                {name: "钻井装备与工具分会", file: "钻井装备与工具分会总结.pdf"},
-                {name: "采油来气装备与工具分会", file: "采油来气装备与工具分会总结.pdf"},
-                {name: "非常规油气工程装备分会", file: "非常规油气工程装备分会总结.pdf"},
-                {name: "海洋油气工程装备分会", file: "海洋油气工程装备分会总结.pdf"},
-                {name: "石油化工设备分会", file: "石油化工设备分会总结.pdf"},
-                {name: "加能设备分会", file: "加能设备分会总结.pdf"},
-                {name: "膨胀节与管件分会", file: "膨胀节与管件分会总结.pdf"},
-                {name: "测井设备与工具分会", file: "测井设备与工具分会总结.pdf"},
-                {name: "炼油与化工设备管理专业委员会", file: "炼油与化工设备管理专业委员会总结.pdf"},
-                {name: "石油石化装备材料专业委员会", file: "石油石化装备材料专业委员会总结.pdf"},
-                {name: "检验检测与认证认可专业委员会", file: "检验检测与认证认可专业委员会总结.pdf"}
+                {name: "钻井装备与工具分会", file: "钻井装备与工具分会.pdf"},
+                {name: "采油来气装备与工具分会", file: "采油来气装备与工具分会.pdf"},
+                {name: "非常规油气工程装备分会", file: "非常规油气工程装备分会.pdf"},
+                {name: "海洋油气工程装备分会", file: "海洋油气工程装备分会.pdf"},
+                {name: "石油化工设备分会", file: "石油化工设备分会.pdf"},
+                {name: "加能设备分会", file: "加能设备分会.pdf"},
+                {name: "膨胀节与管件分会", file: "膨胀节与管件分会.pdf"},
+                {name: "测井设备与工具分会", file: "测井设备与工具分会.pdf"},
+                {name: "炼油与化工设备管理专业委员会", file: "炼油与化工设备管理专业委员会.pdf"},
+                {name: "石油石化装备材料专业委员会", file: "石油石化装备材料专业委员会.pdf"},
+                {name: "检验检测与认证认可专业委员会", file: "检验检测与认证认可专业委员会.pdf"}
             ]
         };
         
@@ -328,8 +328,9 @@
             // 例如: const pdfPath = `https://example.com/summaries/${encodeURIComponent(filename)}`;
             
             // 由于文件在本地，这里使用模拟行为
-            alert(`即将打开文件: ${filename}\n\n在实际部署中，此操作将在新标签页中打开PDF文件。\n文件路径: D:\\总结\\${filename}`);
-            
+            //alert(`即将打开文件: ${filename}\n\n在实际部署中，此操作将在新标签页中打开PDF文件。\n文件路径: D:\\总结\\${filename}`);
+            const pdfPath = `summaries/${encodeURIComponent(filename)}`;
+            window.open(pdfPath, '_blank');
             // 实际部署时应使用以下代码:
             // window.open(pdfPath, '_blank');
         }
